@@ -1,4 +1,4 @@
 # Sector coordinator
 
-This plugin coordinates world division and connects **sector** (https://github.com/tax1driver/sectors) server instances
+Coordinates world division between **sector** (https://github.com/tax1driver/sectors) server instances and connects them
 to create a reliable network.
