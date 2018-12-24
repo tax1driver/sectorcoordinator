@@ -2,14 +2,30 @@ package com.github.tax1driver.sectormanager.objects.representative;
 
 import com.github.tax1driver.sectormanager.objects.representative.enums.AuthenticationState;
 
+import java.security.Signature;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class ClientAuthority {
+    public static final int CHALLENGE_SIZE = 4096;
+
     private AuthenticationState state;
-    private long timeout;
+    private byte[] challengeBuffer;
+
     private String serverName;
+
+    private long timeout;
 
     public ClientAuthority() {
         this.state = AuthenticationState.AWAITING_CHALLENGE;
         this.timeout = System.currentTimeMillis() + 5000L;
+
+        this.challengeBuffer = new byte[CHALLENGE_SIZE];
+        ThreadLocalRandom.current().nextBytes(this.challengeBuffer);
+
+    }
+
+    public byte[] getChallengeBuffer() {
+        return challengeBuffer;
     }
 
     public AuthenticationState getState() {

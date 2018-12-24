@@ -1,4 +1,4 @@
-package com.github.tax1driver.sectormanager.objects.prototyping.events;
+package com.github.tax1driver.sectormanager.objects.prototyping;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

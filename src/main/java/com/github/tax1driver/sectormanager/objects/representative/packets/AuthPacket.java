@@ -13,13 +13,6 @@ public class AuthPacket extends GenericPacket {
     * */
 
 
-    enum AuthStep {
-        CHALLENGE_MESSAGE, // sent by server, handled on client
-        SIGNATURE_MESSAGE  // sent by client, handled on server
-    }
-
-    private AuthStep step;
-
     /*
     * This field is used:
     *    a) at step 1 (server-client) as challenge message,
@@ -27,12 +20,32 @@ public class AuthPacket extends GenericPacket {
     */
     private byte[] bytes;
 
+    private String identity;
+
+
+
     public byte[] getByteField() {
         return bytes;
     }
 
-    public AuthStep getStep() {
-        return step;
+    public byte[] getBytes() {
+        return bytes;
     }
 
+    public void setBytes(byte[] bytes) {
+        this.bytes = bytes;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity;
+    }
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public AuthPacket(byte[] bytes, String identity) {
+        this.bytes = bytes;
+        this.identity = identity;
+    }
 }

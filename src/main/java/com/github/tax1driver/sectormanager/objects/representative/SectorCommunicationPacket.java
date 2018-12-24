@@ -1,6 +1,7 @@
 package com.github.tax1driver.sectormanager.objects.representative;
 
 
+import com.github.tax1driver.sectormanager.helpers.GsonHelper;
 import com.github.tax1driver.sectormanager.objects.representative.enums.PacketType;
 import com.github.tax1driver.sectormanager.objects.representative.helpers.PacketDeserializer;
 import com.github.tax1driver.sectormanager.objects.representative.packets.GenericPacket;
@@ -19,14 +20,10 @@ public class SectorCommunicationPacket {
         this.packetData = packetData;
     }
 
-    static Gson gson = new GsonBuilder()
-            .registerTypeAdapter(SectorCommunicationPacket.class, new PacketDeserializer())
-            .create();
-
     public static SectorCommunicationPacket fromBuffer(ByteBuffer buffer) {
         try {
             String stringRepresentation = new String(buffer.array(), "UTF-8");
-            return gson.fromJson(stringRepresentation, SectorCommunicationPacket.class);
+            return GsonHelper.gson().fromJson(stringRepresentation, SectorCommunicationPacket.class);
         } catch(UnsupportedEncodingException ex) {
             ex.printStackTrace();
         }

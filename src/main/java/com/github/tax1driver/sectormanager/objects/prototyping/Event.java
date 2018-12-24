@@ -1,12 +1,10 @@
-package com.github.tax1driver.sectormanager.objects.prototyping.events;
+package com.github.tax1driver.sectormanager.objects.prototyping;
 
 public class Event {
     private boolean cancelled;
-    private Class<?> invoker;
 
-    public Event(Class<?> invoker) {
+    public Event() {
         this.cancelled = false;
-        this.invoker = invoker;
     }
 
     public boolean isCancelled() {
@@ -17,7 +15,4 @@ public class Event {
         this.cancelled = cancelled;
     }
 
-    public Class<?> getInvoker() {
-        return invoker;
-    }
 }

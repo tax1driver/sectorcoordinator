@@ -1,5 +1,8 @@
 package com.github.tax1driver.sectormanager.objects.networking;
 
+import com.github.tax1driver.sectormanager.helpers.EventManager;
+import com.github.tax1driver.sectormanager.objects.networking.events.ServerTickEvent;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -19,6 +22,7 @@ public class Server extends Thread {
     private final ByteBuffer channelBuffer;
 
     private List<Connection> connections;
+    private long lastTickMillis;
 
     public Server(InetSocketAddress local) throws IOException {
         this.localAddress = local;
@@ -33,6 +37,8 @@ public class Server extends Thread {
         this.serverChannel.register(this.selector, SelectionKey.OP_ACCEPT);
 
         this.connections = new ArrayList<>();
+
+        this.lastTickMillis = System.currentTimeMillis();
     }
 
 
@@ -66,16 +72,18 @@ public class Server extends Thread {
                                 if (connection.channel() == readable)
                                     connection.processIncomingData(channelBuffer.array());
                             }
+                            long timeMillis = System.currentTimeMillis();
+                            ServerTickEvent e = new ServerTickEvent(timeMillis - lastTickMillis);
 
+                            EventManager.getInstance().callEventListeners(e, ServerTickEvent.class);
                             channelBuffer.clear();
                         }
                     }
                 }
 
+
                 Thread.sleep(5);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (InterruptedException ex) {
+            } catch (IOException|InterruptedException ex) {
                 ex.printStackTrace();
             }
         }
